@@ -3,8 +3,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from database import get_db
-from models.skill import Skill
-from schemas.skill import SkillResponse
+from models.skills import Skill
+from schemas.skills import SkillResponse
 
 
 router = APIRouter(
