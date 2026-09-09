@@ -8,7 +8,7 @@ from database import get_db
 
 router = APIRouter(
     prefix="/api/education",
-    tags=["postfolio"]
+    tags=["portfolio"]
 )
 
 @router.get("/", response_model=list[EducationResponse], status_code=status.HTTP_200_OK )
