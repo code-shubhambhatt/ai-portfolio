@@ -12,6 +12,7 @@ from models.project import Project
 from models.education import Education
 from models.profile import Profile
 from models.experience import Experience
+from models.skills import Skill
 
 load_dotenv()
 

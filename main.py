@@ -1,9 +1,5 @@
 from fastapi import FastAPI
 
-from schemas.profile import ProfileResponse
-from schemas.projects import Project_Response
-from schemas.education import EducationResponse
-
 from routes.profile import router as profile_router
 from routes.projects import router as project_router
 from routes.education import router as education_router
