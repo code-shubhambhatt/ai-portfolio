@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 from database import Base, engine
 from models.project import Project
 from models.education import Education
+from models.profile import Profile
 load_dotenv()
 
 # this is the Alembic Config object, which provides

@@ -1,8 +1,16 @@
-from pydantic import BaseModel, AnyUrl
+from pydantic import BaseModel
+
 
 class ProfileResponse(BaseModel):
-    name : str
-    role : str
-    bio : str | None= None
-    github : AnyUrl
-    linkedin : AnyUrl
+    id: int
+    name: str
+    role: str
+    bio: str
+    about: str | None = None
+    email: str | None = None
+    phone: str | None = None
+    location: str | None = None
+    github: str | None = None
+    linkedin: str | None = None
+    resume_url: str | None = None
+    profile_image_url: str | None = None
