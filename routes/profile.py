@@ -10,10 +10,10 @@ profile_info = {
 }
 
 router = APIRouter(
-    prefix="/api",
+    prefix="/api/profile",
     tags=["portfolio"]
 )
 
-@router.get("/profile", response_model= ProfileResponse)
+@router.get("/", response_model= ProfileResponse)
 def get_profile():
     return profile_info
