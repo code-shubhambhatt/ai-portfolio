@@ -29,7 +29,7 @@ client = Groq(
 )
 
 
-def ask_ai(query, portfolio_context):
+def ask_ai(query, portfolio_context, conversation):
     user_message = {"role": "user", "content": query}
 
     system_message = {
@@ -47,7 +47,7 @@ def ask_ai(query, portfolio_context):
         """,
     }
 
-    messages = [system_message, user_message]
+    messages = [system_message,*conversation, user_message]
 
     response = client.chat.completions.create(model=model, messages=messages)
 
@@ -181,6 +181,6 @@ router = APIRouter(prefix="/api/chat", tags=["ai"])
 def chat(request: ChatRequest, db: Session = Depends(get_db)):
     portfolio_context = get_portfolio_context(db)
 
-    answer = ask_ai(request.message, portfolio_context)
+    answer = ask_ai(request.message, portfolio_context, request.conversation)
 
     return {"question": request.message, "answer": answer}
