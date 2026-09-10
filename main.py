@@ -6,6 +6,9 @@ from routes.education import router as education_router
 from routes.experience import router as experience_router
 from routes.skills import router as skill_router
 
+# AI related Imports
+from routes.chat import router as chat_router
+
 app = FastAPI()
 
 app.include_router(profile_router)
@@ -13,6 +16,10 @@ app.include_router(project_router)
 app.include_router(education_router)
 app.include_router(experience_router)
 app.include_router(skill_router)
+
+
+# AI related routes
+app.include_router(chat_router)
 
 @app.get("/")
 def test():
