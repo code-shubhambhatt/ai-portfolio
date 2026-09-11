@@ -1,4 +1,8 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, File, Form, UploadFile
+import json
+from schemas.chat import ChatMessage
+from utils.file_extractor import extract_text
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -29,7 +33,7 @@ client = Groq(
 )
 
 
-def ask_ai(query, portfolio_context, conversation):
+def ask_ai(query, portfolio_context, conversation, jd_text=None):
     user_message = {"role": "user", "content": query}
 
     system_message = {
@@ -44,15 +48,20 @@ def ask_ai(query, portfolio_context, conversation):
 
         Portfolio Context:
         {portfolio_context}
+
+        {"Job Description:" if jd_text else ""}
+        {jd_text or ""}
         """,
     }
 
-    messages = [system_message,*conversation, user_message]
+    messages = [system_message, *conversation, user_message]
 
-    response = client.chat.completions.create(model=model, messages=messages)
+    response = client.chat.completions.create(
+        model=model,
+        messages=messages
+    )
 
     return response.choices[0].message.content
-
 
 def retrieve_profile(profile):
     return f"""
@@ -178,9 +187,30 @@ router = APIRouter(prefix="/api/chat", tags=["ai"])
 
 
 @router.post("/")
-def chat(request: ChatRequest, db: Session = Depends(get_db)):
+async def chat(
+    message: str = Form(...),
+    conversation: str = Form("[]"),
+    file: UploadFile | None = File(None),
+    db: Session = Depends(get_db),
+):
+    conversation_data = json.loads(conversation)
+
+    jd_text = None
+
+    if file:
+        jd_text = await extract_text(file)
+
     portfolio_context = get_portfolio_context(db)
 
-    answer = ask_ai(request.message, portfolio_context, request.conversation)
+    answer = ask_ai(
+        message,
+        portfolio_context,
+        conversation_data,
+        jd_text,
+    )
 
-    return {"question": request.message, "answer": answer}
+    return {
+        "question": message,
+        "answer": answer,
+        "jd_text": jd_text,
+    }
