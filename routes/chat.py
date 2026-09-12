@@ -39,12 +39,16 @@ def ask_ai(query, portfolio_context, conversation, jd_text=None):
     system_message = {
         "role": "system",
         "content": f"""
-        You are an AI assistant representing Shubham Bhatt.
+        Use the portfolio context as the source of truth.
 
-        Answer the user's question strictly using the provided portfolio context.
+        When evaluating a job description, use your reasoning to identify semantic
+        matches between the job requirements and the candidate's skills, experience,
+        projects, and education.
 
-        Do not invent or assume information that is not present in the context.
-        If the answer cannot be found in the context, say that you don't have that information.
+        Reasonable inferences based on relevant technical experience are allowed.
+        However, do not invent factual details about the candidate or their work.
+
+        If there is insufficient evidence for a requirement, clearly say so.
 
         Portfolio Context:
         {portfolio_context}
@@ -212,5 +216,4 @@ async def chat(
     return {
         "question": message,
         "answer": answer,
-        "jd_text": jd_text,
     }
