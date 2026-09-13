@@ -1,35 +1,36 @@
 /**
  * Centralized API client for communicating with the FastAPI backend.
- * Uses relative `/api` paths which Vite proxies to `http://127.0.0.1:8000`.
+ * Uses relative `/api` paths in local dev (proxied by Vite), or VITE_API_BASE_URL in production.
  */
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
 export async function fetchProfile() {
-  const res = await fetch('/api/profile/');
+  const res = await fetch(`${API_BASE}/api/profile/`);
   if (!res.ok) throw new Error(`Failed to fetch profile: ${res.statusText}`);
   return res.json();
 }
 
 export async function fetchProjects() {
-  const res = await fetch('/api/projects/');
+  const res = await fetch(`${API_BASE}/api/projects/`);
   if (!res.ok) throw new Error(`Failed to fetch projects: ${res.statusText}`);
   return res.json();
 }
 
 export async function fetchSkills() {
-  const res = await fetch('/api/skills/');
+  const res = await fetch(`${API_BASE}/api/skills/`);
   if (!res.ok) throw new Error(`Failed to fetch skills: ${res.statusText}`);
   return res.json();
 }
 
 export async function fetchExperience() {
-  const res = await fetch('/api/experiences/');
+  const res = await fetch(`${API_BASE}/api/experiences/`);
   if (!res.ok) throw new Error(`Failed to fetch experience: ${res.statusText}`);
   return res.json();
 }
 
 
 export async function fetchEducation() {
-  const res = await fetch('/api/education/');
+  const res = await fetch(`${API_BASE}/api/education/`);
   if (!res.ok) throw new Error(`Failed to fetch education: ${res.statusText}`);
   return res.json();
 }
@@ -42,7 +43,7 @@ export async function sendChatMessage(message, conversation = [], file = null) {
     formData.append('file', file);
   }
 
-  const res = await fetch('/api/chat/', {
+  const res = await fetch(`${API_BASE}/api/chat/`, {
     method: 'POST',
     body: formData,
   });
@@ -63,7 +64,7 @@ export async function streamChatMessage(message, conversation = [], file = null,
     formData.append('file', file);
   }
 
-  const res = await fetch('/api/chat/stream', {
+  const res = await fetch(`${API_BASE}/api/chat/stream`, {
     method: 'POST',
     body: formData,
   });
