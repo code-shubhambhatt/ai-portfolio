@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Custom Glass & Atmosphere Colors */
+  --color-canvas: #12141a;
+  --color-canvas-card: #1a1d25;
+  --color-canvas-elevated: #222631;
+
+  --color-border-card: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(96, 165, 250, 0.4);
+
+  --color-accent-blue: #3b82f6;
+  --color-accent-cyan: #06b6d4;
+  --color-accent-emerald: #10b981;
+}
+
+html {
+  background-color: #12141a;
+  color: #f1f5f9;
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #12141a;
+  color: #f1f5f9;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Subtle Architectural Dot Grid Background */
+.bg-dot-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Glass Card with Top Specular Reflection Highlight */
+.glass-card {
+  background: rgba(26, 29, 37, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08), 0 8px 24px -4px rgba(0, 0, 0, 0.35);
+}
+
+.glass-card:hover {
+  background: rgba(30, 34, 44, 0.85);
+  border-color: rgba(96, 165, 250, 0.35);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 12px 32px -4px rgba(59, 130, 246, 0.08);
+}
+
+/* Custom Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #12141a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2e3b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3b4254;
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: #ffffff;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 2.5s infinite;
+}
+
+/* Subtle glow utility */
+.blue-glow {
+  box-shadow: 0 0 24px -4px rgba(59, 130, 246, 0.25);
+}
