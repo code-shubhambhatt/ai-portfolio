@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from routes.profile import router as profile_router
 from routes.projects import router as project_router
@@ -9,7 +10,16 @@ from routes.skills import router as skill_router
 # AI related Imports
 from routes.chat import router as chat_router
 
-app = FastAPI()
+app = FastAPI(title="Shubham Bhatt Portfolio API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 app.include_router(profile_router)
 app.include_router(project_router)
