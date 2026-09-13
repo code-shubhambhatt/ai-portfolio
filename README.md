@@ -6,55 +6,11 @@ This repository powers a dynamic portfolio state engine coupled with a real-time
 
 ---
 
-## Architecture Overview
-
-```
-                           +-----------------------------------------------+
-                           |          Client / Frontend Layer             |
-                           |     (Vite + React Copilot Drawer UI)          |
-                           +-----------------------+-----------------------+
-                                                   |
-                             REST / Streaming SSE  |  Multipart Form-Data
-                                                   v
-+-----------------------------------------------------------------------------------------+
-|                                    FastAPI Backend Core                                 |
-|                                                                                         |
-|  +-------------------------+   +--------------------------+   +----------------------+  |
-|  |     Router Modules      |   |    Pydantic Schemas      |   |  Document Ingestion  |  |
-|  |  /api/chat/stream       |   |   Request Validation     |   |   pypdf / docx / txt |  |
-|  |  /api/projects, skills  |   |   Response Serialization |   |   utils/file_extract |  |
-|  +------------+------------+   +-------------+------------+   +----------+-----------+  |
-|               |                              |                           |              |
-|               v                              v                           v              |
-|  +-----------------------------------------------------------------------------------+  |
-|  |                                AI Orchestration Engine                            |  |
-|  |   - In-Memory / Relational Grounded Context Assembly (RAG without Vector Bloat)   |  |
-|  |   - Hallucination Guardrails & Anti-Fabrication Contracts                         |  |
-|  |   - Groq API Integration (`openai/gpt-oss-120b`)                                  |  |
-|  |   - Token-by-Token HTTP Chunked Streaming (StreamingResponse)                    |  |
-|  +-------------------------------------------+---------------------------------------+  |
-|                                              |                                          |
-|                                              v                                          |
-|  +-----------------------------------------------------------------------------------+  |
-|  |                           Persistence & ORM Layer (SQLAlchemy 2.0)                |  |
-|  |   Models: Profile | Projects | Skills Matrix | Experience | Education              |  |
-|  |   Engine: PostgreSQL via psycopg 3 (Binary) | Alembic Schema Migrations           |  |
-|  +-------------------------------------------+---------------------------------------+  |
-+----------------------------------------------+------------------------------------------+
-                                               |
-                                               v
-                                    +--------------------+
-                                    |     PostgreSQL     |
-                                    |    State Store     |
-                                    +--------------------+
-```
-
----
-
+    
 ## Core Backend & AI Engineering Highlights
 
 ### 1. Grounded LLM Orchestration & Streaming Engine
-- **Sub-100ms Inference via Groq**: Powered by Groq's high-throughput LPU inference engine (`groq>=1.7.0`) running **`openai/gpt-oss-120b`**.
+- **Sub-100ms Inference via Groq**: Powered by Groq's high-throughput LPU inference engine (`groq>=1.7.0`) running **Llama 3.3 70B Versatile** and **GPT-OSS 120B**.
 - **Real-Time Token Streaming**: The `/api/chat/stream` route utilizes `StreamingResponse(stream_ai_generator(...), media_type="text/plain; charset=utf-8")` to yield generation chunks directly to client listeners without buffer delays.
 - **Relational Context Grounding (Vector-Free RAG)**: Rather than maintaining complex vector databases that risk stale retrieval and hallucination, the service aggregates candidate data directly from PostgreSQL relational models (`Profile`, `Project`, `Skill`, `Experience`, `Education`). This deterministic context is injected into system prompt templates, ensuring 100% grounded facts.
 - **Anti-Hallucination Guardrails**: The system prompt strictly limits inference to the candidate's verified background and technical domain knowledge, preventing factual fabrication while allowing technical reasoning across candidate competencies.
