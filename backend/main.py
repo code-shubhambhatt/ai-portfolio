@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -12,9 +13,18 @@ from routes.chat import router as chat_router
 
 app = FastAPI(title="Shubham Bhatt Portfolio API")
 
+raw_origins = os.getenv("ALLOWED_ORIGINS", "")
+allowed_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+if raw_origins:
+    allowed_origins.extend([o.strip() for o in raw_origins.split(",") if o.strip()])
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "*"],
+    allow_origins=allowed_origins,
+    allow_origin_regex=r"^https:\/\/.*\.pages\.dev$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
