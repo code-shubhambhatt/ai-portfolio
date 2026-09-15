@@ -54,6 +54,26 @@ const QUICK_PROMPTS = [
   },
 ];
 
+const renderWithLineBreaks = (children) => {
+  if (typeof children === 'string') {
+    if (/<br\s*\/?>/i.test(children)) {
+      return children.split(/<br\s*\/?>/i).map((part, idx, arr) => (
+        <React.Fragment key={idx}>
+          {part}
+          {idx < arr.length - 1 && <br />}
+        </React.Fragment>
+      ));
+    }
+    return children;
+  }
+  if (Array.isArray(children)) {
+    return children.map((child, idx) => (
+      <React.Fragment key={idx}>{renderWithLineBreaks(child)}</React.Fragment>
+    ));
+  }
+  return children;
+};
+
 export default function AiChatWidget({ isOpen, setIsOpen }) {
   const [query, setQuery] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
@@ -376,8 +396,10 @@ export default function AiChatWidget({ isOpen, setIsOpen }) {
                                     thead: ({ node, ...props }) => (
                                       <thead className="bg-[#1f222c] text-white border-b border-white/[0.1]" {...props} />
                                     ),
-                                    th: ({ node, ...props }) => (
-                                      <th className="px-3.5 py-2 font-semibold text-blue-400 whitespace-nowrap border-r last:border-r-0 border-white/[0.08]" {...props} />
+                                    th: ({ node, children, ...props }) => (
+                                      <th className="px-3.5 py-2 font-semibold text-blue-400 whitespace-nowrap border-r last:border-r-0 border-white/[0.08]" {...props}>
+                                        {renderWithLineBreaks(children)}
+                                      </th>
                                     ),
                                     tbody: ({ node, ...props }) => (
                                       <tbody className="divide-y divide-white/[0.06]" {...props} />
@@ -385,17 +407,19 @@ export default function AiChatWidget({ isOpen, setIsOpen }) {
                                     tr: ({ node, ...props }) => (
                                       <tr className="hover:bg-white/[0.02] transition-colors" {...props} />
                                     ),
-                                    td: ({ node, ...props }) => (
-                                      <td className="px-3.5 py-2 text-[#cbd5e1] border-r last:border-r-0 border-white/[0.06] align-top text-xs leading-relaxed" {...props} />
+                                    td: ({ node, children, ...props }) => (
+                                      <td className="px-3.5 py-2 text-[#cbd5e1] border-r last:border-r-0 border-white/[0.06] align-top text-xs leading-relaxed" {...props}>
+                                        {renderWithLineBreaks(children)}
+                                      </td>
                                     ),
                                     h1: ({ node, ...props }) => <h4 className="text-sm font-bold text-white mt-2.5 mb-1" {...props} />,
                                     h2: ({ node, ...props }) => <h4 className="text-xs font-bold text-white mt-2.5 mb-1" {...props} />,
                                     h3: ({ node, ...props }) => <h5 className="text-[11px] font-semibold text-blue-400 uppercase tracking-wide mt-2 mb-0.5" {...props} />,
-                                    p: ({ node, ...props }) => <p className="mb-2 last:mb-0 leading-relaxed text-xs sm:text-sm text-[#cbd5e1]" {...props} />,
+                                    p: ({ node, children, ...props }) => <p className="mb-2 last:mb-0 leading-relaxed text-xs sm:text-sm text-[#cbd5e1]" {...props}>{renderWithLineBreaks(children)}</p>,
                                     strong: ({ node, ...props }) => <strong className="font-semibold text-white" {...props} />,
                                     ul: ({ node, ...props }) => <ul className="list-disc list-inside space-y-1 my-2 text-xs text-[#cbd5e1]" {...props} />,
                                     ol: ({ node, ...props }) => <ol className="list-decimal list-inside space-y-1 my-2 text-xs text-[#cbd5e1]" {...props} />,
-                                    li: ({ node, ...props }) => <li className="leading-relaxed" {...props} />,
+                                    li: ({ node, children, ...props }) => <li className="leading-relaxed" {...props}>{renderWithLineBreaks(children)}</li>,
                                     code: ({ node, inline, ...props }) =>
                                       inline ? (
                                         <code className="px-1.5 py-0.5 rounded bg-white/[0.08] text-blue-300 text-xs font-mono" {...props} />
