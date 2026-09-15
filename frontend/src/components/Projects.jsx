@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Sparkles, Layers, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { ExternalLink, Sparkles, Layers, CheckCircle2 } from 'lucide-react';
 import { Github } from './Icons';
 
 export default function Projects({ projects = [] }) {
@@ -12,7 +12,7 @@ export default function Projects({ projects = [] }) {
   });
 
   return (
-    <section id="projects" className="py-20 sm:py-28 border-b border-white/[0.06] relative">
+    <section id="projects" className="py-20 sm:py-28 border-b border-white/[0.06] relative scroll-mt-20">
       <div className="max-w-6xl mx-auto px-6">
         {/* Section Header with Scroll Reveal */}
         <motion.div
@@ -102,19 +102,6 @@ export default function Projects({ projects = [] }) {
                         {proj.technologies && proj.technologies.slice(0, 3).join(' • ')}
                       </p>
                     </div>
-
-                    {/* Quick Link Arrow */}
-                    {(proj.demo_url || proj.github_url) && (
-                      <a
-                        href={proj.demo_url || proj.github_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="p-2.5 rounded-xl bg-white/[0.04] group-hover:bg-blue-600 group-hover:text-white text-[#94a3b8] hover:scale-105 active:scale-95 transition-all duration-150 cursor-pointer shadow-sm"
-                        title="View Project"
-                      >
-                        <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </a>
-                    )}
                   </div>
 
                   {/* Description */}
