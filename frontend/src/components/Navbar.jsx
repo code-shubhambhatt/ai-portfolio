@@ -45,6 +45,19 @@ export default function Navbar({ profile, onOpenChat }) {
     { id: 'contact', label: 'Contact' },
   ];
 
+  const handleNavClick = (e, targetId) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+
+    // Allow drawer close animation to start before triggering smooth scroll
+    setTimeout(() => {
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
   return (
     <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#12141a]/85 border-b border-white/[0.06] transition-colors">
       {/* Scroll Progress Bar */}
@@ -57,6 +70,11 @@ export default function Navbar({ profile, onOpenChat }) {
         {/* Left: Brand Monogram */}
         <a
           href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            setMobileMenuOpen(false);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
           className="flex items-center gap-3 group hover:scale-[1.02] active:scale-[0.98] transition-transform duration-150"
         >
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white font-bold flex items-center justify-center text-sm shadow-md shadow-blue-500/20 group-hover:shadow-blue-500/40 transition-shadow">
@@ -80,6 +98,7 @@ export default function Navbar({ profile, onOpenChat }) {
               <a
                 key={link.id}
                 href={`#${link.id}`}
+                onClick={(e) => handleNavClick(e, link.id)}
                 className={`relative px-3.5 py-1.5 rounded-full transition-all duration-150 ${
                   isActive
                     ? 'text-white bg-white/[0.08] border border-white/[0.08] shadow-sm'
@@ -148,15 +167,15 @@ export default function Navbar({ profile, onOpenChat }) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="md:hidden border-t border-white/[0.06] bg-[#12141a]/98 backdrop-blur-2xl overflow-hidden px-6 py-4 space-y-3"
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="md:hidden absolute top-full left-0 right-0 border-b border-white/[0.08] bg-[#12141a]/98 backdrop-blur-2xl overflow-hidden px-6 py-4 space-y-3 shadow-2xl shadow-black/80"
           >
             <div className="grid grid-cols-2 gap-2">
               {navLinks.map((link) => (
                 <a
                   key={link.id}
                   href={`#${link.id}`}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => handleNavClick(e, link.id)}
                   className={`px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
                     activeSection === link.id
                       ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30'

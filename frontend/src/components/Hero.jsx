@@ -33,7 +33,7 @@ export default function Hero({ profile, onOpenChat }) {
   };
 
   return (
-    <section id="about" className="relative pt-16 pb-20 sm:pt-24 sm:pb-28 border-b border-white/[0.06] overflow-hidden">
+    <section id="about" className="relative pt-16 pb-20 sm:pt-24 sm:pb-28 border-b border-white/[0.06] overflow-hidden scroll-mt-20">
       {/* Static Ambient Floating Gradient Glows (Lightweight, zero GPU repaint) */}
       <div className="absolute top-0 left-1/3 -translate-x-1/2 w-[550px] sm:w-[850px] h-[340px] bg-gradient-to-b from-blue-600/15 via-indigo-600/8 to-transparent blur-3xl pointer-events-none -z-10" />
       <div className="absolute top-20 right-1/4 w-[450px] sm:w-[700px] h-[300px] bg-gradient-to-b from-teal-500/10 via-indigo-500/5 to-transparent blur-3xl pointer-events-none -z-10" />

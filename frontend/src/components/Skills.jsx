@@ -42,7 +42,7 @@ export default function Skills({ skills = [] }) {
     .filter(([_, items]) => items.length > 0);
 
   return (
-    <section id="skills" className="py-20 sm:py-28 border-b border-white/[0.06] relative">
+    <section id="skills" className="py-20 sm:py-28 border-b border-white/[0.06] relative scroll-mt-20">
       <div className="max-w-6xl mx-auto px-6">
         {/* Section Header */}
         <motion.div

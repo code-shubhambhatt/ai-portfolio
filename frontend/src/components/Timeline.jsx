@@ -16,7 +16,7 @@ export default function Timeline({ experiences = [], educations = [] }) {
   };
 
   return (
-    <section id="experience" className="py-20 sm:py-28 border-b border-white/[0.06] relative">
+    <section id="experience" className="py-20 sm:py-28 border-b border-white/[0.06] relative scroll-mt-20">
       <div className="max-w-5xl mx-auto px-6">
         {/* Section Header & Segmented Controls */}
         <motion.div

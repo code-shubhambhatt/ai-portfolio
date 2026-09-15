@@ -18,7 +18,7 @@ export default function Footer({ profile }) {
   };
 
   return (
-    <footer id="contact" className="py-20 bg-[#0f1116] border-t border-white/[0.06] relative">
+    <footer id="contact" className="py-20 bg-[#0f1116] border-t border-white/[0.06] relative scroll-mt-20">
       <div className="max-w-6xl mx-auto px-6 space-y-12">
         {/* Contact Banner with Scroll Reveal */}
         <motion.div
